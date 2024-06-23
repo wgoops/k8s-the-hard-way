@@ -1,0 +1,5 @@
+put following in ~/.bashrc: 
+    export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+    export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+
+then source ~/.bashrc 

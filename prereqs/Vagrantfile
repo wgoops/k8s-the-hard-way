@@ -1,0 +1,69 @@
+Vagrant.configure("2") do |config| #use configuration version 2. 
+    # Specify the box URL
+    config.vm.box = "debian/bookworm64"
+  
+    # Shared SSH settings
+    config.ssh.username = "vagrant"
+    config.ssh.password = "vagrant"
+  
+    # Define the jumpbox machine
+    config.vm.define "k8s-jumpbox" do |jumpbox|
+      jumpbox.vm.hostname = "jumpbox"
+      jumpbox.vm.network "private_network", type: "dhcp"
+      jumpbox.vm.network "forwarded_port", guest: 22, host: 2222
+      jumpbox.vm.provider "virtualbox" do |vb|
+        vb.name = "jumpbox"
+        vb.memory = 512
+        vb.cpus = 1
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+        vb.customize ["modifyvm", :id, "--nic1", "natnetwork"]
+        vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all"]
+        vb.customize ["createhd", "--filename", "/mnt/z/dev/vms/jumpbox.vdi", "--size", 10240]
+      end
+    end
+  
+    # Define k8s-server
+    config.vm.define "k8s-server" do |k8s-server|
+      k8s-server.vm.hostname = "server"
+      k8s-server.vm.network "private_network", type: "dhcp"
+      k8s-server.vm.provider "virtualbox" do |vb|
+        vb.name = "k8s-server"
+        vb.memory = 2048
+        vb.cpus = 1
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+        vb.customize ["modifyvm", :id, "--nic1", "natnetwork"]
+        vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all"]
+        vb.customize ["createhd", "--filename", "/mnt/z/dev/vms/k8s-server.vdi", "--size", 20480]
+      end
+    end
+  
+    # Define k8s-node0 
+    config.vm.define "k8s-node0" do |k8s-node0|
+      k8s-node0.vm.hostname = "k8s-node0"
+      k8s-node0.vm.network "private_network", type: "dhcp"
+      k8s-node0.vm.provider "virtualbox" do |vb|
+        vb.name = "k8s-node0"
+        vb.memory = 2048
+        vb.cpus = 1
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+        vb.customize ["modifyvm", :id, "--nic1", "natnetwork"]
+        vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all"]
+        vb.customize ["createhd", "--filename", "/mnt/z/dev/vms/k8s-node0.vdi", "--size", 20480]
+      end
+    end
+  
+    # Define the k8s-node1 machine
+    config.vm.define "k8s-node1" do |k8s-node1|
+      k8s-node1.vm.hostname = "k8s-node1"
+      k8s-node1.vm.network "private_network", type: "dhcp"
+      k8s-node1.vm.provider "virtualbox" do |vb|
+        vb.name = "node-1"
+        vb.memory = 2048
+        vb.cpus = 1
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+        vb.customize ["modifyvm", :id, "--nic1", "natnetwork"]
+        vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all"]
+        vb.customize ["createhd", "--filename", "/mnt/z/dev/vms/k8s-node1.vdi", "--size", 20480]
+      end
+    end
+  end
