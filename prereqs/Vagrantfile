@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
       vb.name = "jumpbox"
       vb.memory = 512
       vb.cpus = 1
-      vb.customize ["createhd", "--filename", "z:/dev/vms/k8s-jumpbox1.vdi", "--size", 10240]
+      vb.customize ["createhd", "--filename", "k8s-jumpbox1.vdi", "--size", 10240]
       vb.customize ["modifyvm", :id, "--vram", "32"]
     end
   end
@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
       vb.name = "k8sserver"
       vb.memory = 2048
       vb.cpus = 1
-      vb.customize ["createhd", "--filename", "z:/dev/vms/k8sserver.vdi", "--size", 20480]
+      vb.customize ["createhd", "--filename", "k8sserver.vdi", "--size", 20480]
       vb.customize ["modifyvm", :id, "--vram", "32"]
     end
   end
@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
       vb.name = "k8snode0"
       vb.memory = 2048
       vb.cpus = 1
-      vb.customize ["createhd", "--filename", "z:/dev/vms/k8snode0.vdi", "--size", 20480]
+      vb.customize ["createhd", "--filename", "k8snode0.vdi", "--size", 20480]
       vb.customize ["modifyvm", :id, "--vram", "32"]
     end
   end
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
       vb.name = "node-1"
       vb.memory = 2048
       vb.cpus = 1
-      vb.customize ["createhd", "--filename", "z:/dev/vms/k8snode1.vdi", "--size", 20480]
+      vb.customize ["createhd", "--filename", "k8snode1.vdi", "--size", 20480]
       vb.customize ["modifyvm", :id, "--vram", "32"]
     end
   end

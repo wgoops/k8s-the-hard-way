@@ -1,0 +1,1 @@
+since I'm using x86 processors I need artifacts built for x86 (amd64) systems.
